@@ -286,6 +286,8 @@ def _init_state():
         ]
     if "rag_model" not in st.session_state:
         st.session_state.rag_model = DEFAULT_MODEL
+    if "dark_mode" not in st.session_state:
+        st.session_state.dark_mode = True   # dark par défaut
 
 _init_state()
 
@@ -293,6 +295,10 @@ _init_state()
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 
 with st.sidebar:
+    # ── Logo ────────────────────────────────────────────────────────────────
+    dark = st.session_state.dark_mode
+    _inject_theme_css(dark)
+
     st.markdown("""
     <div style="text-align:center; padding: 1rem 0 .5rem;">
         <div style="font-size:2.8rem">🧠</div>
@@ -306,6 +312,12 @@ with st.sidebar:
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+    # ── Toggle thème ─────────────────────────────────────────────────────────
+    theme_label = "☀️ Mode Clair" if dark else "🌙 Mode Sombre"
+    if st.button(theme_label, use_container_width=True):
+        st.session_state.dark_mode = not dark
+        st.rerun()
 
     st.divider()
 
