@@ -5,11 +5,13 @@ Orchestre les 4 étapes dans un thread séparé et expose
 l'état du pipeline via un objet partagé thread-safe.
 """
 
+from __future__ import annotations
+
 import logging
 import threading
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable
+from typing import Callable, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +22,7 @@ class PipelineStatus:
 
     running: bool = False
     done: bool = False
-    error: str | None = None
+    error: Optional[str] = None
 
     # Étape globale (1-4) et avancement
     current_step: int = 0          # 0 = pas démarré
@@ -32,7 +34,7 @@ class PipelineStatus:
     step_message: str = ""
 
     # Log textuel riche
-    logs: list[str] = field(default_factory=list)
+    logs: List[str] = field(default_factory=list)
 
     # Résultat final
     total_vectors: int = 0
@@ -67,7 +69,7 @@ class PipelineStatus:
 
 
 def run_pipeline_async(
-    file_paths: list[Path],
+    file_paths: List[Path],
     status: PipelineStatus,
     use_mistral_embed: bool = False,
 ) -> threading.Thread:

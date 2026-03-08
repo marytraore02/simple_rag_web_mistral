@@ -6,11 +6,13 @@ Usage depuis le pipeline :
     result = run_embedding(chunks, progress_callback=cb)
 """
 
+from __future__ import annotations
+
 import json
 import sys
 import logging
 from pathlib import Path
-from typing import Callable
+from typing import Callable, List, Optional
 
 import numpy as np
 

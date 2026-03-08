@@ -7,11 +7,13 @@ Usage depuis le pipeline :
     results = search("Ma question", top_k=5)
 """
 
+from __future__ import annotations
+
 import json
 import sys
 import logging
 from pathlib import Path
-from typing import Callable
+from typing import Callable, List, Optional
 
 import numpy as np
 

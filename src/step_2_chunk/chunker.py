@@ -6,11 +6,13 @@ Usage depuis le pipeline :
     chunks = run_chunking(progress_callback=cb)
 """
 
+from __future__ import annotations
+
 import json
 import sys
 import logging
 from pathlib import Path
-from typing import Callable
+from typing import Callable, List, Optional
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
