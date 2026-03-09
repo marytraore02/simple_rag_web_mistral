@@ -91,11 +91,10 @@ AVAILABLE_MODELS = {
 DEFAULT_MODEL = "mistral-small-latest"
 
 GENERATION_PARAMS = {
-    "temperature": 0.2,
-    "top_p": 0.9,
-    "max_tokens": 800,
+    "temperature": 0.2,      # Factuel, peu créatif
+    "top_p": 0.9,            # Cohérent, filtre les options improbables
+    "max_tokens": 500,       # Réponses concises
 }
-
 # ── Logging ──────────────────────────────────────────────────────────────────
 
 LOG_LEVEL = "INFO"
