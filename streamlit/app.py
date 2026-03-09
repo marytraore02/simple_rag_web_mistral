@@ -308,24 +308,45 @@ div.stButton > button[kind="primary"]:hover { box-shadow: 0 4px 15px rgba(108,99
 
 /* Big launch button */
 .launch-btn-wrap div.stButton > button[kind="primary"] {
-  font-size: 1.15rem !important;
-  padding: 0.85rem 2rem !important;
-  border-radius: 14px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.02em;
-  background: linear-gradient(135deg, var(--accent), #9b59f5, var(--accent2)) !important;
-  background-size: 200% 200% !important;
-  animation: gradientShift 3s ease infinite;
-  box-shadow: 0 6px 24px rgba(108,99,255,0.35) !important;
+  font-size: 1.25rem !important;
+  padding: 1rem 2.5rem !important;
+  border-radius: 16px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--accent), #9b59f5, #e040fb, var(--accent2)) !important;
+  background-size: 300% 300% !important;
+  animation: megaLaunch 2s ease-in-out infinite, gradientShift 4s ease infinite;
+  box-shadow: 0 6px 30px rgba(108,99,255,0.4), 0 0 60px rgba(108,99,255,0.15) !important;
+  position: relative;
+  overflow: hidden;
+}
+.launch-btn-wrap div.stButton > button[kind="primary"]::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%; width: 200%; height: 200%;
+  background: conic-gradient(transparent, rgba(255,255,255,0.15), transparent 30%);
+  animation: rotateSweep 3s linear infinite;
 }
 .launch-btn-wrap div.stButton > button[kind="primary"]:hover {
-  box-shadow: 0 8px 30px rgba(108,99,255,0.5) !important;
-  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(108,99,255,0.6), 0 0 80px rgba(155,89,245,0.3) !important;
+  transform: scale(1.06);
+}
+@keyframes megaLaunch {
+  0%   { transform: scale(1);    box-shadow: 0 6px 30px rgba(108,99,255,0.4), 0 0 60px rgba(108,99,255,0.15); }
+  25%  { transform: scale(1.07); box-shadow: 0 10px 40px rgba(108,99,255,0.55), 0 0 80px rgba(155,89,245,0.25); }
+  50%  { transform: scale(0.97); box-shadow: 0 4px 20px rgba(108,99,255,0.3), 0 0 40px rgba(108,99,255,0.1); }
+  75%  { transform: scale(1.05); box-shadow: 0 8px 35px rgba(108,99,255,0.5), 0 0 70px rgba(155,89,245,0.2); }
+  100% { transform: scale(1);    box-shadow: 0 6px 30px rgba(108,99,255,0.4), 0 0 60px rgba(108,99,255,0.15); }
 }
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+}
+@keyframes rotateSweep {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* ── CHAT ────────────────────────────────────────────────── */
@@ -546,12 +567,13 @@ div[data-testid="stChatMessage"][aria-label="assistant"] {
 
 /* ── PULSE BUTTON ANIMATION ─────────────────────────────── */
 @keyframes pulseBtn {
-  0% { transform: scale(1); box-shadow: 0 6px 24px rgba(108,99,255,0.35); }
-  50% { transform: scale(1.04); box-shadow: 0 8px 32px rgba(108,99,255,0.5); }
-  100% { transform: scale(1); box-shadow: 0 6px 24px rgba(108,99,255,0.35); }
+  0%   { transform: scale(1);    box-shadow: 0 6px 24px rgba(108,99,255,0.35); }
+  30%  { transform: scale(1.06); box-shadow: 0 10px 36px rgba(108,99,255,0.55); }
+  60%  { transform: scale(0.96); box-shadow: 0 4px 18px rgba(108,99,255,0.25); }
+  100% { transform: scale(1);    box-shadow: 0 6px 24px rgba(108,99,255,0.35); }
 }
 .pulse-btn div.stButton > button[kind="primary"] {
-  animation: pulseBtn 1.8s ease-in-out infinite, gradientShift 3s ease infinite !important;
+  animation: pulseBtn 1.5s ease-in-out infinite, gradientShift 3s ease infinite !important;
 }
 
 /* ── VISUALIZATION ──────────────────────────────────────── */
@@ -916,13 +938,13 @@ with tab_sources:
                 with go_col:
                     st.markdown('<div class="pulse-btn">', unsafe_allow_html=True)
                     if st.button("🚀 Aller au Pipeline →", use_container_width=True, type="primary"):
-                        # Navigate to Pipeline tab via JavaScript
-                        st.markdown("""
+                        # Navigate to Pipeline tab via JS in iframe
+                        st.components.v1.html("""
                         <script>
-                        const tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
-                        if (tabs.length >= 2) tabs[1].click();
+                        const tabs = window.parent.document.querySelectorAll('[data-baseweb="tab"]');
+                        if (tabs.length >= 2) { tabs[1].click(); }
                         </script>
-                        """, unsafe_allow_html=True)
+                        """, height=0)
                     st.markdown('</div>', unsafe_allow_html=True)
 
         with col_preview:
@@ -1170,13 +1192,13 @@ with tab_pipeline:
 
             st.markdown('<div class="pulse-btn" style="margin-top:1rem;">', unsafe_allow_html=True)
             if st.button("💬 Aller au Chat →", use_container_width=True, type="primary", key="go_chat_btn"):
-                # Navigate to Chat tab via JavaScript
-                st.markdown("""
+                # Navigate to Chat tab via JS in iframe
+                st.components.v1.html("""
                 <script>
-                const tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
-                if (tabs.length >= 3) tabs[2].click();
+                const tabs = window.parent.document.querySelectorAll('[data-baseweb="tab"]');
+                if (tabs.length >= 3) { tabs[2].click(); }
                 </script>
-                """, unsafe_allow_html=True)
+                """, height=0)
             st.markdown('</div>', unsafe_allow_html=True)
 
         elif has_error:
