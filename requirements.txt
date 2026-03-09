@@ -24,7 +24,7 @@ numpy
 pandas
 matplotlib
 seaborn
-scikit-learn
+scikit-learn    
 streamlit
 
 # ── Build & Runtime ─────────────────────────────────────────
