@@ -443,6 +443,132 @@ div[data-testid="stChatMessage"] {
   font-weight: 600;
   margin-right: 8px;
 }
+
+/* ── VALIDATED FILE STATE ────────────────────────────────── */
+.file-item.validated {
+  border-color: #00a98f !important;
+  background: rgba(0,169,143,0.06) !important;
+}
+.file-item.validated .file-name::after {
+  content: ' ✅';
+  font-size: 0.85rem;
+}
+.validated-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(0,212,170,0.12); color: #00a98f;
+  border: 1px solid rgba(0,212,170,0.3);
+  border-radius: 20px; padding: 4px 14px;
+  font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* ── STEPS GRID (Pipeline) ──────────────────────────────── */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.step-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.step-card.active {
+  border-color: var(--accent);
+  background: rgba(108,99,255,0.08);
+  box-shadow: 0 0 16px rgba(108,99,255,0.15);
+}
+.step-card.done {
+  border-color: #00a98f;
+  background: rgba(0,169,143,0.06);
+}
+.step-card.pending { opacity: 0.45; }
+.step-card .step-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.step-card .step-num-badge {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.8rem;
+  background: var(--bg-card); border: 2px solid var(--border);
+  margin-bottom: 0.6rem;
+}
+.step-card.active .step-num-badge { background: var(--accent); border-color: var(--accent); color: white; }
+.step-card.done .step-num-badge { background: #00a98f; border-color: #00a98f; color: white; }
+.step-card .step-card-label { font-weight: 700; font-size: 0.95rem; margin-bottom: 0.3rem; }
+.step-card .step-card-desc { color: var(--text-muted); font-size: 0.78rem; }
+
+/* ── CHAT ALIGNMENT ─────────────────────────────────────── */
+div[data-testid="stChatMessage"][aria-label="user"] {
+  margin-left: 20% !important;
+  margin-right: 0 !important;
+  background: linear-gradient(135deg, var(--accent), #9b59f5) !important;
+  color: white !important;
+}
+div[data-testid="stChatMessage"][aria-label="user"] * {
+  color: white !important;
+}
+div[data-testid="stChatMessage"][aria-label="assistant"] {
+  margin-right: 20% !important;
+  margin-left: 0 !important;
+}
+
+/* ── SUCCESS POPUP ──────────────────────────────────────── */
+.success-popup-overlay {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
+  z-index: 9999; display: flex; align-items: center; justify-content: center;
+}
+.success-popup {
+  background: var(--bg-card);
+  border: 2px solid #00a98f;
+  border-radius: 24px;
+  padding: 3rem 3.5rem;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  animation: popupIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 500px;
+}
+@keyframes popupIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.success-popup .popup-icon { font-size: 4rem; margin-bottom: 1rem; }
+.success-popup h2 {
+  font-size: 1.6rem; font-weight: 800; margin: 0 0 0.5rem;
+  background: linear-gradient(90deg, #00a98f, var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.success-popup p { color: var(--text-muted); margin-bottom: 1.5rem; }
+
+/* ── PULSE BUTTON ANIMATION ─────────────────────────────── */
+@keyframes pulseBtn {
+  0% { transform: scale(1); box-shadow: 0 6px 24px rgba(108,99,255,0.35); }
+  50% { transform: scale(1.04); box-shadow: 0 8px 32px rgba(108,99,255,0.5); }
+  100% { transform: scale(1); box-shadow: 0 6px 24px rgba(108,99,255,0.35); }
+}
+.pulse-btn div.stButton > button[kind="primary"] {
+  animation: pulseBtn 1.8s ease-in-out infinite, gradientShift 3s ease infinite !important;
+}
+
+/* ── VISUALIZATION ──────────────────────────────────────── */
+.viz-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+  transition: all 0.3s ease;
+}
+.viz-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.viz-card h3 { margin: 0 0 0.8rem; font-weight: 700; font-size: 1.05rem; }
+.viz-stat { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+.viz-stat:last-child { border-bottom: none; }
+.viz-stat-label { color: var(--text-muted); font-size: 0.88rem; }
+.viz-stat-value { font-weight: 700; font-size: 0.95rem; color: var(--accent); }
 </style>
 """
     st.markdown(css + common, unsafe_allow_html=True)
@@ -503,6 +629,12 @@ def _init_state():
         st.session_state.dark_mode = True
     if "file_uploader_key" not in st.session_state:
         st.session_state.file_uploader_key = 0
+    if "files_validated" not in st.session_state:
+        st.session_state.files_validated = False
+    if "edit_mode" not in st.session_state:
+        st.session_state.edit_mode = False
+    if "show_success_popup" not in st.session_state:
+        st.session_state.show_success_popup = False
 
 _init_state()
 
@@ -569,6 +701,9 @@ with st.sidebar:
         st.session_state.uploaded_files_meta = {}
         st.session_state.pipeline_status = None
         st.session_state.pipeline_thread = None
+        st.session_state.files_validated = False
+        st.session_state.edit_mode = False
+        st.session_state._popup_dismissed = False
         st.rerun()
 
     st.divider()
@@ -579,10 +714,11 @@ with st.sidebar:
 # ONGLETS
 # ══════════════════════════════════════════════════════════════════════════════
 
-tab_sources, tab_pipeline, tab_chat = st.tabs([
+tab_sources, tab_pipeline, tab_chat, tab_viz = st.tabs([
     "📂  Sources",
     "⚙️  Pipeline",
     "💬  Chat",
+    "📊  Visualisation",
 ])
 
 
@@ -610,7 +746,10 @@ with tab_sources:
     </div>
     """, unsafe_allow_html=True)
 
-    # ── Zone d'upload Streamlit ──────────────────────────────────────────────
+    # ── Zone d'upload Streamlit (visible if not validated or in edit mode) ──
+    is_validated = st.session_state.files_validated
+    is_edit_mode = st.session_state.edit_mode
+
     accepted_types = [
         "pdf", "docx", "pptx", "xlsx",
         "html", "htm", "csv", "tex", "vtt",
@@ -618,31 +757,39 @@ with tab_sources:
         "wav", "mp3", "m4a", "ogg", "flac", "webm",
     ]
 
-    uploaded = st.file_uploader(
-        "Glissez-déposez vos fichiers ici",
-        type=accepted_types,
-        accept_multiple_files=True,
-        key=f"file_uploader_{st.session_state.file_uploader_key}",
-        help="PDF, DOCX, PPTX, XLSX, HTML, CSV, LaTeX, images (PNG/TIFF/JPEG…), audio (WAV/MP3), WebVTT…",
-        label_visibility="collapsed",
-    )
+    if not is_validated or is_edit_mode:
+        uploaded = st.file_uploader(
+            "Glissez-déposez vos fichiers ici",
+            type=accepted_types,
+            accept_multiple_files=True,
+            key=f"file_uploader_{st.session_state.file_uploader_key}",
+            help="PDF, DOCX, PPTX, XLSX, HTML, CSV, LaTeX, images (PNG/TIFF/JPEG…), audio (WAV/MP3), WebVTT…",
+            label_visibility="collapsed",
+        )
 
-    if uploaded:
-        INPUTS_DIR.mkdir(parents=True, exist_ok=True)
-        new_count = 0
-        for uf in uploaded:
-            dest = INPUTS_DIR / uf.name
-            if uf.name not in st.session_state.uploaded_files_meta:
-                dest.write_bytes(uf.getbuffer())
-                st.session_state.uploaded_files_meta[uf.name] = {
-                    "path": dest,
-                    "size": uf.size,
-                    "suffix": Path(uf.name).suffix.lower(),
-                }
-                new_count += 1
-        if new_count:
-            st.success(f"✅ {new_count} nouveau(x) fichier(s) ajouté(s)")
-            st.rerun()
+        if uploaded:
+            INPUTS_DIR.mkdir(parents=True, exist_ok=True)
+            new_count = 0
+            for uf in uploaded:
+                dest = INPUTS_DIR / uf.name
+                if uf.name not in st.session_state.uploaded_files_meta:
+                    dest.write_bytes(uf.getbuffer())
+                    st.session_state.uploaded_files_meta[uf.name] = {
+                        "path": dest,
+                        "size": uf.size,
+                        "suffix": Path(uf.name).suffix.lower(),
+                    }
+                    new_count += 1
+            if new_count:
+                st.success(f"✅ {new_count} nouveau(x) fichier(s) ajouté(s)")
+                st.rerun()
+    else:
+        # Show validated status banner
+        st.markdown("""
+        <div style="text-align:center; padding: 1rem; margin-bottom:1rem;">
+            <span class="validated-badge">✅ Fichiers validés — Prêts pour le pipeline</span>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
 
@@ -650,6 +797,8 @@ with tab_sources:
     meta = st.session_state.uploaded_files_meta
 
     if not meta:
+        st.session_state.files_validated = False
+        st.session_state.edit_mode = False
         st.markdown("""
         <div class="empty-state">
             <div class="empty-icon">📭</div>
@@ -680,10 +829,12 @@ with tab_sources:
         col_list, col_preview = st.columns([1, 1], gap="large")
 
         with col_list:
+            header_extra = ' <span class="validated-badge">✅ Validés</span>' if is_validated and not is_edit_mode else ""
             st.markdown(f"""
             <div class="section-header">
                 <h3>📋 Fichiers chargés</h3>
                 <span class="section-count">{len(meta)}</span>
+                {header_extra}
             </div>
             """, unsafe_allow_html=True)
 
@@ -695,9 +846,10 @@ with tab_sources:
                 size_str = human_size(fmeta["size"])
                 is_selected = fname == selected_file
                 ext_upper = fmeta["suffix"].replace(".", "").upper()
+                validated_class = " validated" if is_validated and not is_edit_mode else ""
 
                 st.markdown(
-                    f"""<div class="file-item" style="{'border-color:var(--accent); box-shadow: 0 0 8px rgba(108,99,255,0.15);' if is_selected else ''}">
+                    f"""<div class="file-item{validated_class}" style="{'border-color:var(--accent); box-shadow: 0 0 8px rgba(108,99,255,0.15);' if is_selected else ''}">
                     <span class="file-icon">{icon}</span>
                     <span class="file-name">{fname}</span>
                     <span class="file-type-tag">{ext_upper}</span>
@@ -706,14 +858,21 @@ with tab_sources:
                     unsafe_allow_html=True,
                 )
 
-                btn_cols = st.columns([1, 1])
-                with btn_cols[0]:
+                # Show action buttons only if not validated or in edit mode
+                if not is_validated or is_edit_mode:
+                    btn_cols = st.columns([1, 1])
+                    with btn_cols[0]:
+                        if st.button("👁️ Aperçu", key=f"prev_{fname}", use_container_width=True):
+                            st.session_state.preview_file = fname
+                            st.rerun()
+                    with btn_cols[1]:
+                        if st.button("🗑️ Supprimer", key=f"del_{fname}", use_container_width=True, type="secondary"):
+                            to_delete.append(fname)
+                else:
+                    # Only preview button when validated
                     if st.button("👁️ Aperçu", key=f"prev_{fname}", use_container_width=True):
                         st.session_state.preview_file = fname
                         st.rerun()
-                with btn_cols[1]:
-                    if st.button("🗑️ Supprimer", key=f"del_{fname}", use_container_width=True, type="secondary"):
-                        to_delete.append(fname)
 
             if to_delete:
                 for fname in to_delete:
@@ -727,14 +886,44 @@ with tab_sources:
 
             st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
 
-            if st.button("🗑️ Tout supprimer", use_container_width=True, type="secondary"):
-                for fmeta in meta.values():
-                    if fmeta["path"].exists():
-                        fmeta["path"].unlink()
-                st.session_state.uploaded_files_meta = {}
-                st.session_state.preview_file = None
-                st.session_state.file_uploader_key += 1
-                st.rerun()
+            # ── Validation / Edit workflow buttons ───────────────────────
+            if not is_validated or is_edit_mode:
+                # Not yet validated: show Validate + Delete all
+                val_col, del_col = st.columns([1, 1])
+                with val_col:
+                    if st.button("✅ Valider les fichiers", use_container_width=True, type="primary"):
+                        st.session_state.files_validated = True
+                        st.session_state.edit_mode = False
+                        st.rerun()
+                with del_col:
+                    if st.button("🗑️ Tout supprimer", use_container_width=True, type="secondary"):
+                        for fmeta in meta.values():
+                            if fmeta["path"].exists():
+                                fmeta["path"].unlink()
+                        st.session_state.uploaded_files_meta = {}
+                        st.session_state.preview_file = None
+                        st.session_state.file_uploader_key += 1
+                        st.session_state.files_validated = False
+                        st.session_state.edit_mode = False
+                        st.rerun()
+            else:
+                # Validated: show Modifier + Go to Pipeline
+                mod_col, go_col = st.columns([1, 1])
+                with mod_col:
+                    if st.button("✏️ Modifier les fichiers", use_container_width=True, type="secondary"):
+                        st.session_state.edit_mode = True
+                        st.rerun()
+                with go_col:
+                    st.markdown('<div class="pulse-btn">', unsafe_allow_html=True)
+                    if st.button("🚀 Aller au Pipeline →", use_container_width=True, type="primary"):
+                        # Navigate to Pipeline tab via JavaScript
+                        st.markdown("""
+                        <script>
+                        const tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
+                        if (tabs.length >= 2) tabs[1].click();
+                        </script>
+                        """, unsafe_allow_html=True)
+                    st.markdown('</div>', unsafe_allow_html=True)
 
         with col_preview:
             st.markdown("""
@@ -869,7 +1058,8 @@ with tab_pipeline:
 
     current_step = snap["current_step"] if snap else 0
 
-    steps_html = ""
+    # ── Grid layout for steps ────────────────────────────────────────────
+    steps_html = '<div class="steps-grid">'
     for num, label, desc, icon in steps_info:
         n = int(num)
         if is_done or (snap and current_step > n):
@@ -883,13 +1073,13 @@ with tab_pipeline:
             indicator = num
 
         steps_html += f"""
-        <div class="step-row {css_class}">
-          <div class="step-num">{indicator}</div>
-          <div style="flex:1">
-            <div class="step-label">{icon} {label}</div>
-            <div class="step-desc">{desc}</div>
-          </div>
+        <div class="step-card {css_class}">
+          <div class="step-icon">{icon}</div>
+          <div class="step-num-badge">{indicator}</div>
+          <div class="step-card-label">{label}</div>
+          <div class="step-card-desc">{desc}</div>
         </div>"""
+    steps_html += '</div>'
 
     st.markdown(steps_html, unsafe_allow_html=True)
 
@@ -924,7 +1114,8 @@ with tab_pipeline:
         st.markdown('<center><span class="badge badge-red" style="font-size:0.9rem; padding:0.4rem 1rem;">❌ Erreur lors de l\'exécution</span></center>', unsafe_allow_html=True)
 
     st.markdown("")
-    st.markdown('<div class="launch-btn-wrap">', unsafe_allow_html=True)
+    # Use pulse animation on the launch button
+    st.markdown('<div class="launch-btn-wrap pulse-btn">', unsafe_allow_html=True)
     if st.button(
         btn_label,
         disabled=(n_files == 0 or is_running),
@@ -936,6 +1127,7 @@ with tab_pipeline:
         file_paths = [m["path"] for m in st.session_state.uploaded_files_meta.values()]
         t = run_pipeline_async(file_paths, new_ps, use_mistral_embed=use_mistral_emb)
         st.session_state.pipeline_thread = t
+        st.session_state.show_success_popup = False
         time.sleep(0.3)
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
@@ -961,6 +1153,31 @@ with tab_pipeline:
                 st.metric("🗄️ Vecteurs indexés", snap["total_vectors"])
             with m_col3:
                 st.metric("📡 Embedding", "SBERT" + (" + Mistral" if use_mistral_emb else ""))
+
+            # ── Success banner at bottom ──────────────────────────────────
+            st.markdown("""
+            <div style="margin-top:1.5rem; padding:1.5rem 2rem; border-radius:16px;
+                        background: linear-gradient(135deg, rgba(0,169,143,0.12), rgba(108,99,255,0.08));
+                        border: 1px solid rgba(0,212,170,0.3); text-align:center;">
+                <div style="font-size:2.5rem; margin-bottom:0.5rem;">🎉</div>
+                <div style="font-size:1.3rem; font-weight:800;
+                            background:linear-gradient(90deg,#00a98f,var(--accent));
+                            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+                            margin-bottom:0.4rem;">Pipeline terminé avec succès !</div>
+                <div style="color:var(--text-muted); margin-bottom:1rem;">Votre base de connaissances est prête. Discutez avec vos documents dès maintenant !</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+            st.markdown('<div class="pulse-btn" style="margin-top:1rem;">', unsafe_allow_html=True)
+            if st.button("💬 Aller au Chat →", use_container_width=True, type="primary", key="go_chat_btn"):
+                # Navigate to Chat tab via JavaScript
+                st.markdown("""
+                <script>
+                const tabs = window.parent.document.querySelectorAll('button[data-baseweb="tab"]');
+                if (tabs.length >= 3) tabs[2].click();
+                </script>
+                """, unsafe_allow_html=True)
+            st.markdown('</div>', unsafe_allow_html=True)
 
         elif has_error:
             st.error(snap["error"])
@@ -1103,20 +1320,26 @@ Vous répondez uniquement à partir des documents fournis par l'utilisateur.
         formatted.append(UserMessage(content=enriched))
         return formatted
 
-    def call_llm(messages: list, model: str) -> str:
-        """Appelle l'API Mistral et retourne la réponse."""
+    def stream_llm(messages: list, model: str):
+        """Appelle l'API Mistral en mode streaming et yield les tokens."""
         if not MISTRAL_API_KEY:
-            return "❌ Clé API Mistral non configurée. Veuillez définir `MISTRAL_API_KEY` dans le fichier `.env`."
+            yield "❌ Clé API Mistral non configurée. Veuillez définir `MISTRAL_API_KEY` dans le fichier `.env`."
+            return
         try:
             from mistralai import Mistral
             client = Mistral(api_key=MISTRAL_API_KEY)
-            resp = client.chat.complete(model=model, messages=messages, **GENERATION_PARAMS)
-            if resp.choices:
-                return resp.choices[0].message.content
-            return "Je suis désolé, je n'ai pas pu générer de réponse."
+            stream_resp = client.chat.stream(
+                model=model,
+                messages=messages,
+                **GENERATION_PARAMS,
+            )
+            for chunk in stream_resp:
+                token = chunk.data.choices[0].delta.content
+                if token:
+                    yield token
         except Exception as e:
             logger.error("Erreur LLM : %s", e)
-            return f"❌ Erreur lors de l'appel à Mistral : {e}"
+            yield f"❌ Erreur lors de l'appel à Mistral : {e}"
 
     # ── Affichage de l'historique ────────────────────────────────────────
     for msg in st.session_state.messages:
@@ -1136,11 +1359,9 @@ Vous répondez uniquement à partir des documents fournis par l'utilisateur.
         # Construire les messages
         prompt_messages = build_messages(st.session_state.messages, prompt, ctx_text)
 
-        # Générer la réponse
+        # Générer la réponse en streaming (mot par mot)
         with st.chat_message("assistant"):
-            with st.spinner("🤔 Génération de la réponse…"):
-                answer = call_llm(prompt_messages, st.session_state.rag_model)
-            st.markdown(answer)
+            answer = st.write_stream(stream_llm(prompt_messages, st.session_state.rag_model))
 
             if sources:
                 sources_md = ", ".join([f"`{s}`" for s in sources])
@@ -1150,3 +1371,198 @@ Vous répondez uniquement à partir des documents fournis par l'utilisateur.
                 st.caption("ℹ️ Aucun document pertinent trouvé pour cette question.")
 
         st.session_state.messages.append({"role": "assistant", "content": answer})
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ONGLET 4 — VISUALISATION
+# ══════════════════════════════════════════════════════════════════════════════
+
+with tab_viz:
+
+    st.markdown("""
+    <div class="pipeline-card">
+      <h1>📊 Visualisation des Résultats</h1>
+      <p class="pipeline-subtitle">
+        Explorez les embeddings, chunks et l'index vectoriel après l'exécution du pipeline
+      </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if not index_ready():
+        st.info(
+            "💡 **Aucune donnée à visualiser pour le moment.**\n\n"
+            "Lancez d'abord le pipeline dans l'onglet **⚙️ Pipeline** pour générer les données."
+        )
+    else:
+        import json as _json
+
+        # ── Load data ────────────────────────────────────────────────────
+        viz_chunks_data = None
+        viz_chunks = []
+        viz_metadata = []
+        viz_index = None
+        viz_embeddings = None
+
+        chunks_file = ROOT_DIR / "data" / "chunks" / "chunks.json"
+        embeddings_file = ROOT_DIR / "data" / "chunks" / "embeddings.npz"
+
+        if chunks_file.exists():
+            with open(chunks_file, "r", encoding="utf-8") as f:
+                viz_chunks_data = _json.load(f)
+                viz_chunks = viz_chunks_data.get("chunks", [])
+
+        if FAISS_METADATA_FILE.exists():
+            with open(FAISS_METADATA_FILE, "r", encoding="utf-8") as f:
+                viz_metadata = _json.load(f)
+
+        try:
+            import faiss as _faiss
+            if FAISS_INDEX_FILE.exists():
+                viz_index = _faiss.read_index(str(FAISS_INDEX_FILE))
+        except Exception:
+            pass
+
+        if embeddings_file.exists():
+            try:
+                import numpy as _np
+                data = _np.load(str(embeddings_file))
+                if "sbert" in data:
+                    viz_embeddings = data["sbert"]
+                elif len(data.files) > 0:
+                    viz_embeddings = data[data.files[0]]
+            except Exception:
+                pass
+
+        # ── Stats cards ──────────────────────────────────────────────────
+        st.markdown("")
+        c1, c2, c3, c4 = st.columns(4)
+        with c1:
+            st.markdown(f"""
+            <div class="viz-card">
+                <h3>🗄️ Index FAISS</h3>
+                <div class="viz-stat"><span class="viz-stat-label">Vecteurs</span><span class="viz-stat-value">{viz_index.ntotal if viz_index else 0}</span></div>
+                <div class="viz-stat"><span class="viz-stat-label">Dimensions</span><span class="viz-stat-value">{viz_index.d if viz_index else '—'}</span></div>
+            </div>""", unsafe_allow_html=True)
+        with c2:
+            st.markdown(f"""
+            <div class="viz-card">
+                <h3>✂️ Chunks</h3>
+                <div class="viz-stat"><span class="viz-stat-label">Total</span><span class="viz-stat-value">{len(viz_chunks)}</span></div>
+                <div class="viz-stat"><span class="viz-stat-label">Config</span><span class="viz-stat-value">{viz_chunks_data.get('config', {}).get('chunk_size', '—') if viz_chunks_data else '—'}/{viz_chunks_data.get('config', {}).get('chunk_overlap', '—') if viz_chunks_data else '—'}</span></div>
+            </div>""", unsafe_allow_html=True)
+        with c3:
+            n_sources = len(set(c.get("metadata", {}).get("filename", "") for c in viz_chunks)) if viz_chunks else 0
+            st.markdown(f"""
+            <div class="viz-card">
+                <h3>📂 Sources</h3>
+                <div class="viz-stat"><span class="viz-stat-label">Documents</span><span class="viz-stat-value">{n_sources}</span></div>
+                <div class="viz-stat"><span class="viz-stat-label">Métadonnées</span><span class="viz-stat-value">{len(viz_metadata)}</span></div>
+            </div>""", unsafe_allow_html=True)
+        with c4:
+            emb_shape = viz_embeddings.shape if viz_embeddings is not None else None
+            st.markdown(f"""
+            <div class="viz-card">
+                <h3>🧠 Embeddings</h3>
+                <div class="viz-stat"><span class="viz-stat-label">Shape</span><span class="viz-stat-value">{f'{emb_shape[0]}×{emb_shape[1]}' if emb_shape else '—'}</span></div>
+                <div class="viz-stat"><span class="viz-stat-label">Modèle</span><span class="viz-stat-value">SBERT</span></div>
+            </div>""", unsafe_allow_html=True)
+
+        st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
+
+        # ── Embedding Visualization ──────────────────────────────────────
+        st.markdown("""
+        <div class="section-header">
+            <h3>🧠 Visualisation des Embeddings (2D)</h3>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if viz_embeddings is not None and len(viz_embeddings) >= 2:
+            import numpy as _np
+            try:
+                from sklearn.manifold import TSNE
+                from sklearn.decomposition import PCA
+                import matplotlib
+                matplotlib.use("Agg")
+                import matplotlib.pyplot as plt
+
+                n_samples = len(viz_embeddings)
+                if n_samples < 5:
+                    reducer = PCA(n_components=2, random_state=42)
+                    coords = reducer.fit_transform(viz_embeddings)
+                    method = "PCA"
+                else:
+                    perp = min(30, n_samples - 1)
+                    reducer = TSNE(n_components=2, perplexity=perp, random_state=42, init="pca", learning_rate="auto")
+                    coords = reducer.fit_transform(viz_embeddings)
+                    method = "t-SNE"
+
+                filenames = [c.get("metadata", {}).get("filename", "Inconnu") for c in viz_chunks[:n_samples]]
+
+                fig, ax = plt.subplots(figsize=(12, 7))
+                fig.patch.set_facecolor('#0d0f14' if st.session_state.dark_mode else '#f5f7fb')
+                ax.set_facecolor('#161b27' if st.session_state.dark_mode else '#ffffff')
+
+                unique_files = list(set(filenames))
+                colors = plt.cm.Set2.colors if len(unique_files) <= 8 else plt.cm.tab20.colors
+                color_map = {f: colors[i % len(colors)] for i, f in enumerate(unique_files)}
+
+                for fname in unique_files:
+                    mask = [i for i, fn in enumerate(filenames) if fn == fname]
+                    ax.scatter(
+                        coords[mask, 0], coords[mask, 1],
+                        label=fname, alpha=0.75, s=80, edgecolors='white', linewidths=0.5,
+                        color=color_map[fname],
+                    )
+                text_color = '#e8eaf0' if st.session_state.dark_mode else '#1a1d2e'
+                ax.set_title(f"Embeddings ({method}) — {n_samples} chunks", fontsize=14, fontweight="bold", color=text_color, pad=15)
+                ax.tick_params(colors=text_color)
+                for spine in ax.spines.values():
+                    spine.set_color('#2d3148' if st.session_state.dark_mode else '#d0d5e8')
+                ax.legend(fontsize=8, loc="upper right", framealpha=0.7)
+                fig.tight_layout()
+                st.pyplot(fig)
+                plt.close(fig)
+            except Exception as e:
+                st.warning(f"Impossible de générer la visualisation : {e}")
+        else:
+            st.info("Pas assez de données pour la visualisation 2D.")
+
+        st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
+
+        # ── Chunks Explorer ──────────────────────────────────────────────
+        st.markdown("""
+        <div class="section-header">
+            <h3>✂️ Explorateur de Chunks</h3>
+        </div>
+        """, unsafe_allow_html=True)
+
+        if viz_chunks:
+            # Source filter
+            all_sources = sorted(set(c.get("metadata", {}).get("filename", "Inconnu") for c in viz_chunks))
+            selected_source = st.selectbox("🔍 Filtrer par source", ["Tous"] + all_sources, key="viz_source_filter")
+
+            filtered = viz_chunks if selected_source == "Tous" else [
+                c for c in viz_chunks if c.get("metadata", {}).get("filename") == selected_source
+            ]
+
+            st.caption(f"Affichage de {min(20, len(filtered))}/{len(filtered)} chunks")
+
+            for i, chunk in enumerate(filtered[:20]):
+                meta = chunk.get("metadata", {})
+                text_preview = chunk.get("text", "")[:200].replace("\n", " ")
+                st.markdown(f"""
+                <div class="viz-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                        <span style="font-weight:700; font-size:0.9rem;">Chunk #{meta.get('chunk_index', i)}</span>
+                        <span class="file-type-tag">{meta.get('filename', 'Inconnu')}</span>
+                    </div>
+                    <div style="color:var(--text-muted); font-size:0.85rem; line-height:1.5;">{text_preview}…</div>
+                    <div style="margin-top:0.5rem; display:flex; gap:1rem;">
+                        <span class="stat-pill">📏 {meta.get('chunk_size', len(chunk.get('text', '')))} car.</span>
+                        <span class="stat-pill">📂 {meta.get('category', '—')}</span>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.info("Aucun chunk disponible. Lancez le pipeline d'abord.")
+

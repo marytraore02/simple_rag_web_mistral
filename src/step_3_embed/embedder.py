@@ -43,7 +43,7 @@ def embed_with_sbert(
     texts: list[str],
     model_name: str = SBERT_MODEL_NAME,
     progress_callback: ProgressCallback | None = None,
-) -> np.ndarray:
+ ) -> np.ndarray:
     """Génère les embeddings avec un modèle SBERT local."""
     from sentence_transformers import SentenceTransformer
 
@@ -78,7 +78,7 @@ def embed_with_mistral(
     texts: list[str],
     api_key: str | None = MISTRAL_API_KEY,
     progress_callback: ProgressCallback | None = None,
-) -> np.ndarray | None:
+ ) -> np.ndarray | None:
     """Génère les embeddings via l'API Mistral."""
     if not api_key:
         logger.warning("⚠️ Pas de clé API Mistral → embeddings Mistral ignorés")
@@ -123,7 +123,7 @@ def run_embedding(
     use_sbert: bool = True,
     visualize: bool = False,
     progress_callback: ProgressCallback | None = None,
-) -> dict:
+ ) -> dict:
     """
     Point d'entrée de l'étape 3 : génération des embeddings.
 
