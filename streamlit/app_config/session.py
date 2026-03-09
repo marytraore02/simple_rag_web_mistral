@@ -22,9 +22,10 @@ def init_session_state() -> None:
             {
                 "role": "assistant",
                 "content": (
-                    "👋 Bonjour ! Je suis votre assistant documentaire propulsé par **Mistral**.\n\n"
-                    "Commencez par uploader vos documents dans l'onglet **📂 Sources**, "
-                    "lancez le pipeline dans **⚙️ Pipeline**, puis revenez ici pour discuter !"
+                    "👋 Bonjour, je suis l'assistant virtuel de la mairie de Trifouillis-sur-Loire. "
+                    "Comment puis-je vous aider aujourd'hui ?\n\n"
+                    "_(Note de l'administration : N'oubliez pas d'insérer les documents municipaux "
+                    "dans l'onglet **📂 Sources** et de lancer le **⚙️ Pipeline** si besoin.)_"
                 ),
             }
         ],
