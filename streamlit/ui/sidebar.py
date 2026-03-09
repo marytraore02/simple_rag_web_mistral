@@ -8,7 +8,7 @@ import streamlit as st
 
 from app_config.settings import AVAILABLE_MODELS, MISTRAL_API_KEY
 from ui.theme import inject_theme_css
-from utils.helpers import index_ready
+from utils.helpers import index_ready, complete_reset
 
 
 def render_sidebar() -> None:
@@ -86,13 +86,8 @@ def render_sidebar() -> None:
             ]
             st.rerun()
 
-        if st.button("🔄 Réinitialiser tout", use_container_width=True, type="secondary"):
-            st.session_state.uploaded_files_meta = {}
-            st.session_state.pipeline_status = None
-            st.session_state.pipeline_thread = None
-            st.session_state.files_validated = False
-            st.session_state.edit_mode = False
-            st.session_state._popup_dismissed = False
+        if st.button("🔄 Réinitialiser complètement (Hard Reset)", use_container_width=True, type="secondary"):
+            complete_reset()
             st.rerun()
 
         st.divider()
