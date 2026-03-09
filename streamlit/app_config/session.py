@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import streamlit as st
 
-from streamlit.config.settings import DEFAULT_MODEL
+from app_config.settings import DEFAULT_MODEL
 
 
 def init_session_state() -> None:

@@ -10,7 +10,7 @@ from __future__ import annotations
 import logging
 from typing import Generator
 
-from streamlit.config.settings import MISTRAL_API_KEY, GENERATION_PARAMS
+from app_config.settings import MISTRAL_API_KEY, GENERATION_PARAMS
 
 logger = logging.getLogger(__name__)
 

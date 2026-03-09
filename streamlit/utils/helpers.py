@@ -6,7 +6,7 @@ Contient les helpers partagés (formatage de taille, icônes, vérifications).
 
 from __future__ import annotations
 
-from streamlit.config.settings import FAISS_INDEX_FILE, FAISS_METADATA_FILE
+from app_config.settings import FAISS_INDEX_FILE, FAISS_METADATA_FILE
 
 
 def human_size(n_bytes: int) -> str:

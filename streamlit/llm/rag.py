@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 
-from streamlit.utils.helpers import index_ready
+from utils.helpers import index_ready
 
 logger = logging.getLogger(__name__)
 

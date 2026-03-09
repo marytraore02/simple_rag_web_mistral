@@ -21,3 +21,9 @@ build/
 .vscode/
 .idea/
 *.swp
+
+# Temporary Files
+*.pyc
+__pycache__/
+.pytest_cache/
+.coverage
