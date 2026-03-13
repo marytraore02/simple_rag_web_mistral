@@ -496,7 +496,7 @@ div[data-testid="stChatMessage"]:has(.msg-marker-assistant) {
 div[data-testid="stChatMessage"]:has(.msg-marker-assistant) div[data-testid="stChatMessageAvatar"] {
   background-color: transparent !important;
   margin-right: 0.8rem;
-  margin-top: 4px !important;
+  margin-top: 10px !important;
 }
 div[data-testid="stChatMessage"]:has(.msg-marker-assistant) * {
   color: var(--text-main) !important;
@@ -523,7 +523,7 @@ div[data-testid="stChatMessage"]:has(.msg-marker-user) div[data-testid="stChatMe
   display: flex !important;
   margin-left: 0.8rem !important;
   margin-right: 0 !important;
-  margin-top: 4px !important;
+  margin-top: 10px !important;
   background-color: transparent !important;
 }
 /* User text bubble */
