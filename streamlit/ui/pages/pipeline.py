@@ -94,7 +94,7 @@ def render(tab) -> None:
         if is_running:
             st.markdown(
                 '<center><span class="badge badge-blue" style="font-size:0.9rem; padding:0.4rem 1rem;">'
-                "⏳ Pipeline en cours d'exécution…</span></center>",
+                "<span class=\"spin-icon\">⏳</span> Pipeline en cours d'exécution…</span></center>",
                 unsafe_allow_html=True,
             )
         elif is_done:
