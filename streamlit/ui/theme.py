@@ -488,6 +488,7 @@ div[data-testid="stChatMessage"]:has(.msg-marker-assistant) {
   margin-right: 0 !important; 
   margin-left: 0 !important;
   flex-direction: row !important;
+  align-items: flex-start !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -495,6 +496,7 @@ div[data-testid="stChatMessage"]:has(.msg-marker-assistant) {
 div[data-testid="stChatMessage"]:has(.msg-marker-assistant) div[data-testid="stChatMessageAvatar"] {
   background-color: transparent !important;
   margin-right: 0.8rem;
+  margin-top: 4px !important;
 }
 div[data-testid="stChatMessage"]:has(.msg-marker-assistant) * {
   color: var(--text-main) !important;
@@ -513,6 +515,7 @@ div[data-testid="stChatMessage"]:has(.msg-marker-user) {
   float: right !important;
   clear: both;
   flex-direction: row-reverse !important; /* Put avatar on the right */
+  align-items: flex-start !important;
   padding: 0 !important;
 }
 /* User avatar */
@@ -520,6 +523,7 @@ div[data-testid="stChatMessage"]:has(.msg-marker-user) div[data-testid="stChatMe
   display: flex !important;
   margin-left: 0.8rem !important;
   margin-right: 0 !important;
+  margin-top: 4px !important;
   background-color: transparent !important;
 }
 /* User text bubble */
