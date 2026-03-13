@@ -62,7 +62,7 @@ def render(tab) -> None:
             for msg in st.session_state.messages:
                 with st.chat_message(msg["role"]):
                     st.markdown(f"<span class='msg-marker-{msg['role']}'></span>", unsafe_allow_html=True)
-                    st.markdown(msg["content"])
+                    st.markdown(msg["content"], unsafe_allow_html=True)
 
         # ── Saisie utilisateur ───────────────────────────────────────────
         if prompt := st.chat_input("Posez votre question sur vos documents…"):
@@ -88,9 +88,14 @@ def render(tab) -> None:
                     )
 
                     if sources:
-                        sources_md = ", ".join([f"`{s}`" for s in sources])
-                        st.caption(f"📚 **Sources utilisées :** {sources_md}")
-                        answer += f"\n\n*📚 Sources : {', '.join(sources)}*"
+                        sources_html = "".join([f"<span class='source-tag'>📄 {s}</span>" for s in sources])
+                        source_block = f'''
+<div class="sources-container">
+  <div class="sources-title">📚 Sources utilisées :</div>
+  <div class="sources-list">{sources_html}</div>
+</div>'''
+                        st.markdown(source_block, unsafe_allow_html=True)
+                        answer += f"\n\n{source_block}"
                     elif not ctx_text and index_ready():
                         st.caption("ℹ️ Aucun document pertinent trouvé pour cette question.")
 
