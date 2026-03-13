@@ -29,64 +29,71 @@ def inject_theme_css(dark: bool) -> None:
         css = """
 <style>
 :root {
-  --bg-dark:     #0d0f14;
-  --bg-card:     #161b27;
-  --bg-card2:    #1c2232;
-  --bg-card3:    #1a1f2f;
-  --accent:      #6c63ff;
-  --accent2:     #00d4aa;
-  --accent3:     #ff6b6b;
-  --text-main:   #e8eaf0;
-  --text-muted:  #8b92a5;
-  --border:      rgba(108,99,255,0.2);
+  --bg-dark:     #212121;
+  --bg-card:     #212121;
+  --bg-card2:    #2f2f2f;
+  --bg-card3:    #383838;
+  --accent:      #10a37f;
+  --accent2:     #10a37f;
+  --accent3:     #ef4444;
+  --text-main:   #ececec;
+  --text-muted:  #b4b4b4;
+  --border:      #303030;
   --radius:      14px;
-  --shadow:      0 4px 24px rgba(0,0,0,0.4);
-  --log-bg:      #0a0c12;
-  --log-border:  #2d3148;
-  --log-text:    #b8c0d8;
-  --upload-bg:   rgba(108,99,255,0.06);
-  --upload-border: rgba(108,99,255,0.25);
-  --upload-hover: rgba(108,99,255,0.12);
-  --glass-bg:    rgba(22,27,39,0.7);
-  --glass-border: rgba(108,99,255,0.15);
+  --shadow:      0 4px 24px rgba(0,0,0,0.2);
+  --log-bg:      #212121;
+  --log-border:  #383838;
+  --log-text:    #ececec;
+  --upload-bg:   rgba(16,163,127,0.06);
+  --upload-border: rgba(16,163,127,0.25);
+  --upload-hover: rgba(16,163,127,0.12);
+  --glass-bg:    #212121;
+  --glass-border: #303030;
 }
 .stApp {
-  background: linear-gradient(135deg, #0d0f14 0%, #111827 60%, #0d1117 100%) !important;
+  background: var(--bg-dark) !important;
+  color: var(--text-main) !important;
+}
+.stApp * {
   color: var(--text-main);
 }
-section[data-testid="stSidebar"] { background: var(--bg-card) !important; border-right: 1px solid var(--border); }
+section[data-testid="stSidebar"] { background: #171717 !important; border-right: none !important; }
 section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 """
     else:
         css = """
 <style>
 :root {
-  --bg-dark:     #f5f7fb;
+  --bg-dark:     #ffffff;
   --bg-card:     #ffffff;
-  --bg-card2:    #f0f2f8;
-  --bg-card3:    #e8ecf4;
-  --accent:      #5b52e8;
-  --accent2:     #00a98f;
+  --bg-card2:    #f4f4f4;
+  --bg-card3:    #e5e5e5;
+  --accent:      #10a37f;
+  --accent2:     #10a37f;
   --accent3:     #e05555;
-  --text-main:   #1a1d2e;
-  --text-muted:  #5a6275;
-  --border:      rgba(91,82,232,0.18);
+  --text-main:   #0d0d0d;
+  --text-muted:  #666666;
+  --border:      #e5e5e5;
   --radius:      14px;
-  --shadow:      0 4px 24px rgba(0,0,0,0.08);
-  --log-bg:      #f0f2f8;
-  --log-border:  #d0d5e8;
-  --log-text:    #3a4060;
-  --upload-bg:   rgba(91,82,232,0.04);
-  --upload-border: rgba(91,82,232,0.2);
-  --upload-hover: rgba(91,82,232,0.08);
-  --glass-bg:    rgba(255,255,255,0.7);
-  --glass-border: rgba(91,82,232,0.12);
+  --shadow:      0 4px 24px rgba(0,0,0,0.05);
+  --log-bg:      #f4f4f4;
+  --log-border:  #e5e5e5;
+  --log-text:    #0d0d0d;
+  --upload-bg:   #f9f9f9;
+  --upload-border: #e5e5e5;
+  --upload-hover: #f0f0f0;
+  --glass-bg:    #ffffff;
+  --glass-border: #e5e5e5;
+  --test-light-mode: 1;
 }
 .stApp {
-  background: linear-gradient(135deg, #f5f7fb 0%, #eef1f9 60%, #f0f4fc 100%) !important;
+  background: var(--bg-dark) !important;
+  color: var(--text-main) !important;
+}
+.stApp * {
   color: var(--text-main);
 }
-section[data-testid="stSidebar"] { background: var(--bg-card) !important; border-right: 1px solid var(--border); }
+section[data-testid="stSidebar"] { background: #f9f9f9 !important; border-right: none !important; }
 section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 .hero-upload { background: var(--bg-card) !important; }
 .rag-card { background: var(--bg-card) !important; }
@@ -94,6 +101,53 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 .step-row  { background: var(--bg-card2) !important; }
 .pipeline-card { background: var(--bg-card) !important; }
 .chat-welcome { background: var(--bg-card) !important; }
+
+"""
+
+    light_overrides = ""
+    if not dark:
+        light_overrides = """
+<style>
+/* ── Light Mode Forçage de priorité maximale ─────────────────────────── */
+.stApp header[data-testid="stHeader"], .stApp .stAppHeader, .stApp header {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.stApp div[data-testid="stChatInput"],
+.stApp div[data-testid="stChatInput"] > div,
+.stApp div[data-testid="stChatInput"] .stChatInputContainer {
+  background-color: #f4f4f4 !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.stApp div[data-testid="stChatInput"] *,
+.stApp div[data-testid="stChatInput"] textarea {
+  color: #000000 !important;
+  background-color: transparent !important;
+}
+.stApp div[data-testid="stChatInput"] textarea::placeholder {
+  color: #666666 !important;
+  opacity: 1 !important;
+}
+.stApp div[data-testid="stChatInputSubmitButton"] {
+  background-color: transparent !important;
+}
+
+.stApp div[data-testid="stFileUploader"],
+.stApp div[data-testid="stFileUploader"] > section,
+.stApp section[data-testid="stFileUploadDropzone"] {
+  background-color: #f3f4f6 !important;
+}
+.stApp div[data-testid="stFileUploader"] * {
+  color: #374151 !important;
+}
+.stApp div[data-testid="stFileUploader"] button {
+  background-color: transparent !important;
+  border: 1px solid #d1d5db !important;
+}
+</style>
 """
 
     # ── Partie commune (indépendante du thème) ───────────────────────────
@@ -312,33 +366,55 @@ div.stButton > button[kind="primary"]:hover { box-shadow: 0 4px 15px rgba(108,99
 
 /* ── CHAT ────────────────────────────────────────────────── */
 div[data-testid="stChatMessage"] {
-  background: var(--bg-card) !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 1rem 0 !important;
+}
+
+div[data-testid="stChatInput"] {
+  border-radius: 24px !important;
   border: 1px solid var(--border) !important;
-  border-radius: 14px !important;
-  margin-bottom: .7rem !important;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1) !important;
+  background: var(--bg-card) !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
 }
 .chat-welcome {
-  border: 1px solid var(--border); border-radius: 20px;
-  padding: 2.5rem; text-align: center;
-  margin-bottom: 1.5rem; box-shadow: var(--shadow);
+  background: transparent !important;
+  border: none !important;
+  padding: 4rem 1rem 2rem; 
+  text-align: center;
+  margin-bottom: 2rem; 
+  box-shadow: none !important;
 }
 .chat-welcome h1 {
-  font-size: 2rem; font-weight: 800;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  margin: 0 0 0.4rem;
+  font-size: 2.5rem; 
+  font-weight: 600;
+  color: var(--text-main);
+  background: none;
+  -webkit-text-fill-color: var(--text-main);
+  margin: 0 0 0.8rem;
+  letter-spacing: -0.02em;
 }
-.chat-welcome .chat-subtitle { color: var(--text-muted); font-size: 1rem; }
-.chat-feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; }
+.chat-welcome .chat-subtitle { color: var(--text-muted); font-size: 1.1rem; }
+.chat-feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
 .chat-feature {
-  border: 1px solid var(--border); border-radius: 14px;
-  padding: 1.2rem; text-align: center; transition: all 0.25s ease;
+  border: 1px solid var(--border); 
+  border-radius: 14px;
+  padding: 1rem 1.2rem; 
+  text-align: left; 
+  background: transparent;
+  transition: background 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
 }
-.chat-feature:hover { border-color: var(--accent); transform: translateY(-2px); }
-.chat-feature .feat-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
-.chat-feature .feat-title { font-weight: 700; font-size: 0.9rem; color: var(--text-main); }
-.chat-feature .feat-desc { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.3rem; }
+.chat-feature:hover { 
+  background: var(--bg-card2); 
+  transform: translateY(-2px); 
+  border-color: var(--border);
+}
+.chat-feature .feat-icon { font-size: 1.4rem; margin-bottom: 0.5rem; opacity: 0.8; }
+.chat-feature .feat-title { font-weight: 600; font-size: 0.95rem; color: var(--text-main); display: block; }
+.chat-feature .feat-desc { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.3rem; display: block; }
 
 /* ── LOGS ────────────────────────────────────────────────── */
 .log-box {
@@ -407,13 +483,111 @@ div[data-testid="stChatMessage"] {
 .step-card .step-card-desc { color: var(--text-muted); font-size: 0.78rem; }
 
 /* ── CHAT ALIGNMENT ─────────────────────────────────────── */
-div[data-testid="stChatMessage"][aria-label="user"] {
-  margin-left: 20% !important; margin-right: 0 !important;
-  background: linear-gradient(135deg, var(--accent), #9b59f5) !important;
-  color: white !important;
+/* Assistant message (ChatGPT style: transparent background, flush left) */
+div[data-testid="stChatMessage"]:has(.msg-marker-assistant) {
+  margin-right: 0 !important; 
+  margin-left: 0 !important;
+  flex-direction: row !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
-div[data-testid="stChatMessage"][aria-label="user"] * { color: white !important; }
-div[data-testid="stChatMessage"][aria-label="assistant"] { margin-right: 20% !important; margin-left: 0 !important; }
+div[data-testid="stChatMessage"]:has(.msg-marker-assistant) div[data-testid="stChatMessageAvatar"] {
+  background-color: transparent !important;
+  margin-right: 0.8rem;
+}
+div[data-testid="stChatMessage"]:has(.msg-marker-assistant) * {
+  color: var(--text-main) !important;
+}
+
+/* User message (Avatar on right, grey bubble for text) */
+div[data-testid="stChatMessage"]:has(.msg-marker-user) {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  max-width: 85% !important;
+  width: fit-content !important;
+  align-self: flex-end !important;
+  float: right !important;
+  clear: both;
+  flex-direction: row-reverse !important; /* Put avatar on the right */
+  padding: 0 !important;
+}
+/* User avatar */
+div[data-testid="stChatMessage"]:has(.msg-marker-user) div[data-testid="stChatMessageAvatar"] {
+  display: flex !important;
+  margin-left: 0.8rem !important;
+  margin-right: 0 !important;
+  background-color: transparent !important;
+}
+/* User text bubble */
+div[data-testid="stChatMessage"]:has(.msg-marker-user) > div:not([data-testid="stChatMessageAvatar"]) {
+  background: var(--bg-card2) !important;
+  border-radius: 20px !important;
+  border-top-right-radius: 4px !important;
+  padding: 0.8rem 1.4rem !important;
+  text-align: left !important;
+}
+div[data-testid="stChatMessage"]:has(.msg-marker-user) * { 
+  color: var(--text-main) !important; 
+}
+
+/* Chat Input styling */
+div[data-testid="stChatInput"] > div {
+  background-color: var(--bg-card2) !important;
+  border-color: var(--border) !important;
+  border-radius: 9999px !important;
+  box-shadow: none !important;
+}
+div[data-testid="stChatInput"] * {
+  color: var(--text-main) !important;
+}
+div[data-testid="stChatInput"] textarea {
+  background-color: transparent !important;
+  color: var(--text-main) !important;
+}
+
+/* Make Send Button transparent instead of dark */
+div[data-testid="stChatInputSubmitButton"] {
+  background-color: transparent !important;
+}
+div[data-testid="stChatInputSubmitButton"] * {
+  color: var(--text-main) !important;
+  fill: var(--text-main) !important;
+}
+
+/* File Uploader styling */
+div[data-testid="stFileUploader"] > section[data-testid="stFileUploadDropzone"] {
+  background-color: var(--upload-bg) !important;
+  border: 2px dashed var(--upload-border) !important;
+}
+div[data-testid="stFileUploader"] * {
+  color: var(--text-main) !important;
+}
+section[data-testid="stFileUploadDropzone"] {
+  background-color: var(--upload-bg) !important;
+}
+section[data-testid="stFileUploadDropzone"] * {
+  color: var(--text-main) !important;
+}
+
+/* Selectbox styling */
+div[data-baseweb="select"] > div {
+  background-color: var(--bg-card) !important;
+  border-color: var(--border) !important;
+}
+div[data-baseweb="select"] span {
+  color: var(--text-main) !important;
+}
+ul[data-baseweb="menu"] li {
+  background-color: var(--bg-card) !important;
+  color: var(--text-main) !important;
+}
+ul[data-baseweb="menu"] li:hover {
+  background-color: var(--bg-card2) !important;
+}
 
 /* ── SUCCESS POPUP ──────────────────────────────────────── */
 .success-popup-overlay {
@@ -462,4 +636,4 @@ div[data-testid="stChatMessage"][aria-label="assistant"] { margin-right: 20% !im
 .viz-stat-value { font-weight: 700; font-size: 0.95rem; color: var(--accent); }
 </style>
 """
-    st.markdown(css + common, unsafe_allow_html=True)
+    st.markdown(css + common + light_overrides, unsafe_allow_html=True)
