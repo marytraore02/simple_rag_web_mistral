@@ -123,9 +123,12 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
   outline: none !important;
 }
 .stApp div[data-testid="stChatInput"] *,
-.stApp div[data-testid="stChatInput"] textarea {
+.stApp div[data-testid="stChatInput"] textarea,
+.stApp div[data-testid="stChatInput"] input {
   color: #000000 !important;
   background-color: transparent !important;
+  caret-color: #000000 !important;
+  -webkit-text-fill-color: #000000 !important;
 }
 .stApp div[data-testid="stChatInput"] textarea::placeholder {
   color: #666666 !important;
@@ -378,6 +381,16 @@ div[data-testid="stChatInput"] {
   border: 1px solid var(--border) !important;
   background: var(--bg-card) !important;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 1000 !important;
+}
+.stChatInputContainer, div[data-testid="stBottomBlockContainer"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  z-index: 9999 !important;
+  padding-bottom: 2rem !important;
+  background: var(--bg-dark) !important;
 }
 .chat-welcome {
   background: transparent !important;
@@ -548,9 +561,11 @@ div[data-testid="stChatInput"] > div {
 div[data-testid="stChatInput"] * {
   color: var(--text-main) !important;
 }
-div[data-testid="stChatInput"] textarea {
+div[data-testid="stChatInput"] textarea, div[data-testid="stChatInput"] input {
   background-color: transparent !important;
   color: var(--text-main) !important;
+  caret-color: var(--text-main) !important;
+  -webkit-text-fill-color: var(--text-main) !important;
 }
 
 /* Make Send Button transparent instead of dark */
@@ -614,6 +629,49 @@ ul[data-baseweb="menu"] li:hover {
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 .success-popup p { color: var(--text-muted); margin-bottom: 1.5rem; }
+
+/* ── SOURCES BLOCK ────────────────────────────────────────── */
+.sources-container {
+  margin-top: 1.2rem;
+  padding: 1rem 1.2rem;
+  background: rgba(16, 163, 127, 0.05);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+.sources-title {
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+}
+.sources-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.source-tag {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+.source-tag:hover {
+  border-color: var(--accent);
+}
+
+/* ── ANIMATIONS ─────────────────────────────────────────── */
+@keyframes spin { 100% { transform: rotate(360deg); } }
+.spin-icon {
+  display: inline-block;
+  animation: spin 1.5s linear infinite;
+}
 
 /* ── PULSE BUTTON ANIMATION ─────────────────────────────── */
 @keyframes pulseBtn {
