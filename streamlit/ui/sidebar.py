@@ -73,7 +73,7 @@ def render_sidebar() -> None:
             label_visibility="collapsed",
         )
         st.session_state.rag_model = AVAILABLE_MODELS[sel_label]
-        st.caption(f"📡 `{st.session_state.rag_model}`")
+        # st.caption(f"📡 `{st.session_state.rag_model}`")
 
         # ── Actions ──────────────────────────────────────────────────────
         st.divider()
