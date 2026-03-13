@@ -30,7 +30,7 @@ def init_session_state() -> None:
             }
         ],
         "rag_model": DEFAULT_MODEL,
-        "dark_mode": True,
+        "dark_mode": False,
         "file_uploader_key": 0,
         "files_validated": False,
         "edit_mode": False,
