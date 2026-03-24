@@ -376,22 +376,6 @@ div[data-testid="stChatMessage"] {
   padding: 1rem 0 !important;
 }
 
-div[data-testid="stChatInput"] {
-  border-radius: 24px !important;
-  border: 1px solid var(--border) !important;
-  background: var(--bg-card) !important;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
-  position: sticky !important;
-  bottom: 0 !important;
-  z-index: 1000 !important;
-}
-.stChatInputContainer, div[data-testid="stBottomBlockContainer"] {
-  position: fixed !important;
-  bottom: 0 !important;
-  z-index: 9999 !important;
-  padding-bottom: 2rem !important;
-  background: var(--bg-dark) !important;
-}
 .chat-welcome {
   background: transparent !important;
   border: none !important;
