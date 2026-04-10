@@ -7,9 +7,10 @@ from __future__ import annotations
 import streamlit as st
 
 from llm.client import stream_llm
-from llm.prompts import build_messages
+from llm.prompts import build_messages, build_chat_messages
 from llm.rag import get_rag_context
 from utils.helpers import index_ready
+from utils.query_classifier import classify_query_intent, INTENT_RAG
 
 
 def render(tab) -> None:
@@ -82,17 +83,32 @@ def render(tab) -> None:
             if prompt := st.chat_input("Posez votre question sur vos documents…"):
                 st.session_state.messages.append({"role": "user", "content": prompt})
                 
+                # Ecrire le message de l'utilisateur
                 with messages_container:
                     with st.chat_message("user"):
                         st.markdown("<span class='msg-marker-user'></span>", unsafe_allow_html=True)
                         st.markdown(prompt)
     
-                    # Recherche RAG
-                    with st.spinner("🔍 Recherche dans les documents…"):
-                        ctx_text, sources = get_rag_context(prompt)
+                    # ── Classification de l'intention ─────────────────────
+                    with st.spinner("🧠 Analyse de la question…"):
+                        intent = classify_query_intent(prompt)
     
-                    # Construire les messages
-                    prompt_messages = build_messages(st.session_state.messages, prompt, ctx_text)
+                    # ── Flux conditionnel selon l'intention ───────────────
+                    sources = []
+                    ctx_text = ""
+
+                    if intent == INTENT_RAG:
+                        # Mode RAG : recherche documentaire + contexte
+                        with st.spinner("🔍 Recherche dans les documents…"):
+                            ctx_text, sources = get_rag_context(prompt)
+                        prompt_messages = build_messages(
+                            st.session_state.messages, prompt, ctx_text
+                        )
+                    else:
+                        # Mode CHAT : conversation directe sans recherche
+                        prompt_messages = build_chat_messages(
+                            st.session_state.messages, prompt
+                        )
     
                     # Générer la réponse en streaming (mot par mot)
                     with st.chat_message("assistant"):
@@ -108,7 +124,7 @@ def render(tab) -> None:
   <div class="sources-list">{sources_html}</div>
 </div>'''
                             st.markdown(source_block, unsafe_allow_html=True)
-                        elif not ctx_text and index_ready():
+                        elif intent == INTENT_RAG and not ctx_text and index_ready():
                             st.caption("ℹ️ Aucun document pertinent trouvé pour cette question.")
     
                 st.session_state.messages.append({"role": "assistant", "content": answer, "sources": sources if sources else None})
