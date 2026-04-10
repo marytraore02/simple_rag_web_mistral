@@ -93,3 +93,34 @@ def build_messages(history: list[dict], question: str, context: str) -> list:
 
     formatted.append(UserMessage(content=enriched))
     return formatted
+
+
+def build_chat_messages(history: list[dict], question: str) -> list:
+    """
+    Construit les messages pour le mode conversationnel (sans contexte RAG).
+
+    Utilisé lorsque le classifieur d'intention détecte une interaction
+    de type CHAT (salutation, politesse, conversation générale).
+
+    Paramètres :
+        history  : historique de conversation [{role, content}, ...]
+        question : question actuelle de l'utilisateur
+
+    Retourne :
+        Liste de messages Mistral (SystemMessage, UserMessage, AssistantMessage)
+    """
+    from mistralai.models import UserMessage, AssistantMessage, SystemMessage
+
+    formatted = [SystemMessage(content=SYSTEM_PROMPT)]
+
+    # Garder les 8 derniers messages pour le contexte
+    recent = history[-8:] if len(history) > 8 else history
+    for msg in recent[:-1]:
+        if msg["role"] == "user":
+            formatted.append(UserMessage(content=msg["content"]))
+        elif msg["role"] == "assistant":
+            formatted.append(AssistantMessage(content=msg["content"]))
+
+    formatted.append(UserMessage(content=question))
+    return formatted
+
