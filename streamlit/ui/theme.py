@@ -109,10 +109,6 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
         light_overrides = """
 <style>
 /* ── Light Mode Forçage de priorité maximale ─────────────────────────── */
-.stApp header[data-testid="stHeader"], .stApp .stAppHeader, .stApp header {
-  display: none !important;
-  visibility: hidden !important;
-}
 
 .stApp div[data-testid="stChatInput"] {
   background-color: #ffffff !important;
@@ -158,7 +154,32 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 
     # ── Partie commune (indépendante du thème) ───────────────────────────
     common = """
-/* ── TABS ────────────────────────────────────────────────── */
+/* ── HIDE HEADERS ────────────────────────────────────────── */
+.stApp header[data-testid="stHeader"], .stApp .stAppHeader, .stApp header {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* ── TABS (fixed header) ─────────────────────────────────── */
+.stTabs {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 19rem !important; /* adjust for default sidebar approx */
+  z-index: 998 !important;
+  background: var(--bg-dark) !important;
+  padding-top: 1rem !important;
+  padding-bottom: 0.5rem !important;
+  margin-top: 0 !important;
+}
+@media (max-width: 768px) {
+  .stTabs { left: 0 !important; padding: 1rem !important; }
+}
+/* Also force the main content area to properly support sticky */
+.stMainBlockContainer, section.main > div {
+  overflow: visible !important;
+  padding-top: 4.5rem !important; /* space for fixed tabs */
+}
 .stTabs [data-baseweb="tab-list"] {
   background: var(--bg-card);
   border-radius: 16px;
@@ -542,25 +563,34 @@ div[data-testid="stChatMessage"]:has(.msg-marker-user) * {
 div[data-testid="stChatInput"] {
   position: fixed !important;
   bottom: 0 !important;
-  left: 0 !important;
+  left: 20rem !important; /* avoid sidebar */
   right: 0 !important;
   z-index: 999 !important;
   background: var(--bg-dark) !important;
-  padding: 0.75rem 2rem 1rem !important;
+  padding: 0.75rem 2.5rem 1.2rem !important;
   border-top: 1px solid var(--border) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   margin: 0 !important;
-  max-width: 100% !important;
-  width: 100% !important;
+  max-width: calc(100% - 20rem) !important;
+  width: calc(100% - 20rem) !important;
   box-sizing: border-box !important;
+}
+@media (max-width: 768px) {
+  div[data-testid="stChatInput"] { 
+    left: 0 !important; 
+    max-width: 100% !important; 
+    width: 100% !important; 
+    padding: 0.75rem 1rem 1rem !important;
+  }
 }
 div[data-testid="stChatInput"] > div {
   background-color: var(--bg-card2) !important;
   border-color: var(--border) !important;
   border-radius: 9999px !important;
   box-shadow: none !important;
-  max-width: 900px !important;
+  max-width: 100% !important;
+  width: 100% !important;
   margin: 0 auto !important;
 }
 div[data-testid="stChatInput"] * {
