@@ -114,7 +114,10 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
   visibility: hidden !important;
 }
 
-.stApp div[data-testid="stChatInput"],
+.stApp div[data-testid="stChatInput"] {
+  background-color: #ffffff !important;
+  border-top: 1px solid #e5e5e5 !important;
+}
 .stApp div[data-testid="stChatInput"] > div,
 .stApp div[data-testid="stChatInput"] .stChatInputContainer {
   background-color: #f4f4f4 !important;
@@ -535,12 +538,30 @@ div[data-testid="stChatMessage"]:has(.msg-marker-user) * {
   color: var(--text-main) !important; 
 }
 
-/* Chat Input styling */
+/* Chat Input styling — force fixed to bottom */
+div[data-testid="stChatInput"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 999 !important;
+  background: var(--bg-dark) !important;
+  padding: 0.75rem 2rem 1rem !important;
+  border-top: 1px solid var(--border) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  margin: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
 div[data-testid="stChatInput"] > div {
   background-color: var(--bg-card2) !important;
   border-color: var(--border) !important;
   border-radius: 9999px !important;
   box-shadow: none !important;
+  max-width: 900px !important;
+  margin: 0 auto !important;
 }
 div[data-testid="stChatInput"] * {
   color: var(--text-main) !important;
@@ -680,6 +701,19 @@ ul[data-baseweb="menu"] li:hover {
 .viz-stat:last-child { border-bottom: none; }
 .viz-stat-label { color: var(--text-muted); font-size: 0.88rem; }
 .viz-stat-value { font-weight: 700; font-size: 0.95rem; color: var(--accent); }
+
+/* ── FIXED CHAT INPUT AT BOTTOM ─────────────────────────── */
+div[data-testid="stBottom"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 999 !important;
+  background: var(--bg-dark) !important;
+  padding: 0.5rem 1rem !important;
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+}
 </style>
 """
     st.markdown(css + common + light_overrides, unsafe_allow_html=True)

@@ -76,57 +76,57 @@ def render(tab) -> None:
 </div>'''
                             st.markdown(source_block, unsafe_allow_html=True)
     
-            # Ajouter un espace vide pour éviter que le chat soit caché par l'input fixe
-            st.markdown("<div style='height: 80px;'></div>", unsafe_allow_html=True)
-            
-            # ── Saisie utilisateur ───────────────────────────────────────────
-            if prompt := st.chat_input("Posez votre question sur vos documents…"):
-                st.session_state.messages.append({"role": "user", "content": prompt})
-                
-                # Ecrire le message de l'utilisateur
-                with messages_container:
-                    with st.chat_message("user"):
-                        st.markdown("<span class='msg-marker-user'></span>", unsafe_allow_html=True)
-                        st.markdown(prompt)
-    
-                    # ── Classification de l'intention ─────────────────────
-                    with st.spinner("🧠 Analyse de la question…"):
-                        intent = classify_query_intent(prompt)
-    
-                    # ── Flux conditionnel selon l'intention ───────────────
-                    sources = []
-                    ctx_text = ""
+        # Spacer pour éviter que le contenu soit caché par l'input fixé en bas
+        st.markdown("<div style='height: 100px;'></div>", unsafe_allow_html=True)
 
-                    if intent == INTENT_RAG:
-                        # Mode RAG : recherche documentaire + contexte
-                        with st.spinner("🔍 Recherche dans les documents…"):
-                            ctx_text, sources = get_rag_context(prompt)
-                        prompt_messages = build_messages(
-                            st.session_state.messages, prompt, ctx_text
-                        )
-                    else:
-                        # Mode CHAT : conversation directe sans recherche
-                        prompt_messages = build_chat_messages(
-                            st.session_state.messages, prompt
-                        )
+        # ── Saisie utilisateur (placé au niveau du tab, hors colonnes) ────
+        if prompt := st.chat_input("Posez votre question sur vos documents…"):
+            st.session_state.messages.append({"role": "user", "content": prompt})
+            
+            # Ecrire le message de l'utilisateur
+            with messages_container:
+                with st.chat_message("user"):
+                    st.markdown("<span class='msg-marker-user'></span>", unsafe_allow_html=True)
+                    st.markdown(prompt)
     
-                    # Générer la réponse en streaming (mot par mot)
-                    with st.chat_message("assistant"):
-                        st.markdown("<span class='msg-marker-assistant'></span>", unsafe_allow_html=True)
-                        answer = st.write_stream(
-                            stream_llm(prompt_messages, st.session_state.rag_model)
-                        )
+                # ── Classification de l'intention ─────────────────────
+                with st.spinner("🧠 Analyse de la question…"):
+                    intent = classify_query_intent(prompt)
     
-                        if sources:
-                            sources_html = "".join([f"<span class='source-tag'>📄 {s}</span>" for s in sources])
-                            source_block = f'''<div class="sources-container">
+                # ── Flux conditionnel selon l'intention ───────────────
+                sources = []
+                ctx_text = ""
+
+                if intent == INTENT_RAG:
+                    # Mode RAG : recherche documentaire + contexte
+                    with st.spinner("🔍 Recherche dans les documents…"):
+                        ctx_text, sources = get_rag_context(prompt)
+                    prompt_messages = build_messages(
+                        st.session_state.messages, prompt, ctx_text
+                    )
+                else:
+                    # Mode CHAT : conversation directe sans recherche
+                    prompt_messages = build_chat_messages(
+                        st.session_state.messages, prompt
+                    )
+    
+                # Générer la réponse en streaming (mot par mot)
+                with st.chat_message("assistant"):
+                    st.markdown("<span class='msg-marker-assistant'></span>", unsafe_allow_html=True)
+                    answer = st.write_stream(
+                        stream_llm(prompt_messages, st.session_state.rag_model)
+                    )
+    
+                    if sources:
+                        sources_html = "".join([f"<span class='source-tag'>📄 {s}</span>" for s in sources])
+                        source_block = f'''<div class="sources-container">
   <div class="sources-title">📚 Sources utilisées :</div>
   <div class="sources-list">{sources_html}</div>
 </div>'''
-                            st.markdown(source_block, unsafe_allow_html=True)
-                        elif intent == INTENT_RAG and not ctx_text and index_ready():
-                            st.caption("ℹ️ Aucun document pertinent trouvé pour cette question.")
+                        st.markdown(source_block, unsafe_allow_html=True)
+                    elif intent == INTENT_RAG and not ctx_text and index_ready():
+                        st.caption("ℹ️ Aucun document pertinent trouvé pour cette question.")
     
-                st.session_state.messages.append({"role": "assistant", "content": answer, "sources": sources if sources else None})
-                st.rerun()  # Assure la mise à jour propre
+            st.session_state.messages.append({"role": "assistant", "content": answer, "sources": sources if sources else None})
+            st.rerun()  # Assure la mise à jour propre
 

@@ -13,6 +13,83 @@ from app_config.settings import INPUTS_DIR, DOCLING_EXTENSIONS, AUDIO_EXTENSIONS
 from utils.helpers import human_size, file_icon
 
 
+# ── Fullscreen preview dialog ────────────────────────────────────────────────
+@st.dialog("📄 Prévisualisation complète", width="large")
+def _fullscreen_preview_dialog(fname: str, fmeta: dict) -> None:
+    """Affiche le fichier en plein écran dans un popup modal."""
+    suffix = fmeta["suffix"]
+    fpath: Path = fmeta["path"]
+
+    st.markdown(
+        f'<div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:1rem;">'
+        f'<span style="font-size:1.6rem;">{file_icon(suffix)}</span>'
+        f'<span style="font-weight:700; font-size:1.15rem;">{fname}</span>'
+        f'<span class="file-type-tag">{suffix.replace(".", "").upper()}</span>'
+        f'<span style="color:var(--text-muted); font-size:0.88rem;">{human_size(fmeta["size"])}</span>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
+
+    st.markdown('<hr class="custom-divider">', unsafe_allow_html=True)
+
+    if suffix in {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tiff", ".tif"}:
+        st.image(str(fpath), use_container_width=True)
+    elif suffix == ".pdf":
+        b64 = base64.b64encode(fpath.read_bytes()).decode()
+        st.markdown(
+            f'<iframe src="data:application/pdf;base64,{b64}" '
+            f'width="100%" height="700px" style="border:none; border-radius:8px;"></iframe>',
+            unsafe_allow_html=True,
+        )
+    elif suffix in {".html", ".htm"}:
+        content = fpath.read_text(encoding="utf-8", errors="replace")
+        st.components.v1.html(content, height=650, scrolling=True)
+    elif suffix in {".wav", ".mp3", ".m4a", ".ogg", ".flac"}:
+        st.audio(str(fpath))
+    elif suffix == ".csv":
+        try:
+            import pandas as pd
+            df = pd.read_csv(fpath)
+            st.dataframe(df, use_container_width=True, height=600)
+        except Exception as e:
+            st.warning(f"Impossible de lire le CSV : {e}")
+    elif suffix == ".xlsx":
+        try:
+            import pandas as pd
+            df = pd.read_excel(fpath)
+            st.dataframe(df, use_container_width=True, height=600)
+        except Exception as e:
+            st.warning(f"Impossible de lire le fichier Excel : {e}")
+    elif suffix == ".docx":
+        try:
+            from docx import Document
+            doc = Document(fpath)
+            text = "\n".join([p.text for p in doc.paragraphs if p.text.strip()])
+            st.text_area("Contenu DOCX", text, height=600, disabled=True)
+        except Exception:
+            st.info("⚠️ Prévisualisation DOCX non disponible.")
+    elif suffix == ".pptx":
+        try:
+            from pptx import Presentation
+            prs = Presentation(fpath)
+            slides_text = []
+            for i, slide in enumerate(prs.slides):
+                parts = [f"── Slide {i+1} ──"]
+                for shape in slide.shapes:
+                    if hasattr(shape, "text") and shape.text.strip():
+                        parts.append(shape.text.strip())
+                slides_text.append("\n".join(parts))
+            st.text_area("Aperçu PPTX (toutes les diapositives)",
+                         "\n\n".join(slides_text), height=600, disabled=True)
+        except Exception:
+            st.info("⚠️ Prévisualisation PPTX non disponible.")
+    elif suffix in {".tex", ".vtt", ".webm"}:
+        text = fpath.read_text(encoding="utf-8", errors="replace")
+        st.text_area("Contenu texte", text, height=600, disabled=True)
+    else:
+        st.info(f"Prévisualisation non disponible pour `{suffix}`.")
+
+
 def render(tab) -> None:
     """Affiche l'onglet Sources dans le conteneur `tab`."""
 
@@ -248,6 +325,10 @@ def _render_preview_column(meta: dict) -> None:
             f'</div>',
             unsafe_allow_html=True,
         )
+
+        # Bouton Agrandir — ouvre le dialog fullscreen
+        if st.button("🔎 Agrandir", key=f"fullscreen_{pfile}", use_container_width=True):
+            _fullscreen_preview_dialog(pfile, fmeta)
 
         # Prévisualisation selon le type
         if suffix in {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tiff", ".tif"}:
