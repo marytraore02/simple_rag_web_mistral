@@ -94,14 +94,14 @@ def classify_query_intent(query: str, model: str = "mistral-small-latest") -> st
         intent = response.choices[0].message.content.strip().upper()
 
         if intent == INTENT_RAG:
-            logger.info("Intention détectée: %s", INTENT_RAG)
+            logger.info("========================Intention détectée: %s", INTENT_RAG)
             return INTENT_RAG
         elif intent == INTENT_CHAT:
-            logger.info("Intention détectée: %s", INTENT_CHAT)
+            logger.info("========================Intention détectée: %s", INTENT_CHAT)
             return INTENT_CHAT
         else:
             logger.warning(
-                "Classification non conforme reçue: '%s'. Utilisation par défaut: %s",
+                "========================Classification non conforme reçue: '%s'. Utilisation par défaut: %s",
                 intent, DEFAULT_INTENT,
             )
             return DEFAULT_INTENT
