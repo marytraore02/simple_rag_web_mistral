@@ -180,13 +180,25 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
   overflow: visible !important;
   padding-top: 4.5rem !important; /* space for fixed tabs */
 }
+/* ── TABS (fixed at top) ────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {
-  background: var(--bg-card);
+  background: var(--bg-dark) !important;
   border-radius: 16px;
   padding: 6px;
   gap: 6px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
+  position: fixed !important;
+  top: 10px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 9999 !important;
+  width: fit-content !important;
+}
+
+/* Add top padding to main content so it doesn't hide behind fixed tabs */
+.stApp .stMain .stMainBlockContainer {
+  padding-top: 70px !important;
 }
 .stTabs [data-baseweb="tab"] {
   background: transparent;
