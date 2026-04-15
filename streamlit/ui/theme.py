@@ -741,7 +741,9 @@ div[data-testid="stChatInput"] {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   right: 0 !important;
-  padding: 0.8rem 5% !important;
+  /* Padding is handled by JS dynamically to match chat column width */
+  padding-top: 0.8rem !important;
+  padding-bottom: 0.8rem !important;
 }
 
 /* Ensure main content has enough bottom padding so nothing hides behind fixed input */
@@ -753,29 +755,47 @@ div[data-testid="stChatInput"] {
     st.markdown(css + common + light_overrides, unsafe_allow_html=True)
 
     # JavaScript to dynamically align chat input with sidebar
-    st.markdown("""
+    import streamlit.components.v1 as components
+    components.html("""
     <script>
     (function() {
         function alignChatInput() {
-            const sidebar = document.querySelector('section[data-testid="stSidebar"]');
-            const chatInput = document.querySelector('div[data-testid="stChatInput"]');
+            const sidebar = window.parent.document.querySelector('section[data-testid="stSidebar"]');
+            const chatInput = window.parent.document.querySelector('div[data-testid="stChatInput"]');
             if (!chatInput) return;
             
+            // 1. First align the container's left edge to the sidebar
             let sidebarWidth = 0;
             if (sidebar) {
                 const rect = sidebar.getBoundingClientRect();
-                // Only count sidebar width if it's visible (not collapsed)
                 if (rect.right > 0 && rect.width > 50) {
                     sidebarWidth = rect.right;
                 }
             }
             chatInput.style.setProperty('left', sidebarWidth + 'px', 'important');
+
+            // 2. Align inner padding to the col_mid column for exact match with chat messages
+            const marker = window.parent.document.getElementById('chat-col-marker');
+            if (marker && marker.parentElement) {
+                const colRect = marker.parentElement.getBoundingClientRect();
+                const chatRect = chatInput.getBoundingClientRect();
+                
+                // Set padding based on differences in bounding boxes
+                let pLeft = colRect.left - chatRect.left;
+                let pRight = chatRect.right - colRect.right;
+                
+                if (pLeft > 0) chatInput.style.setProperty('padding-left', pLeft + 'px', 'important');
+                if (pRight > 0) chatInput.style.setProperty('padding-right', pRight + 'px', 'important');
+            } else {
+                chatInput.style.setProperty('padding-left', '5%', 'important');
+                chatInput.style.setProperty('padding-right', '5%', 'important');
+            }
         }
         
         // Run on load and observe changes
         alignChatInput();
         setInterval(alignChatInput, 500);
-        window.addEventListener('resize', alignChatInput);
+        window.parent.addEventListener('resize', alignChatInput);
     })();
     </script>
-    """, unsafe_allow_html=True)
+    """, height=0, width=0)
