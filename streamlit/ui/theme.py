@@ -735,14 +735,13 @@ div[data-testid="stBottom"] {
 div[data-testid="stChatInput"] {
   position: fixed !important;
   bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
   z-index: 9998 !important;
   background: var(--bg-dark) !important;
-  padding: 0.8rem 15% !important;
   border-top: 1px solid var(--border);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  right: 0 !important;
+  padding: 0.8rem 5% !important;
 }
 
 /* Ensure main content has enough bottom padding so nothing hides behind fixed input */
@@ -752,3 +751,31 @@ div[data-testid="stChatInput"] {
 </style>
 """
     st.markdown(css + common + light_overrides, unsafe_allow_html=True)
+
+    # JavaScript to dynamically align chat input with sidebar
+    st.markdown("""
+    <script>
+    (function() {
+        function alignChatInput() {
+            const sidebar = document.querySelector('section[data-testid="stSidebar"]');
+            const chatInput = document.querySelector('div[data-testid="stChatInput"]');
+            if (!chatInput) return;
+            
+            let sidebarWidth = 0;
+            if (sidebar) {
+                const rect = sidebar.getBoundingClientRect();
+                // Only count sidebar width if it's visible (not collapsed)
+                if (rect.right > 0 && rect.width > 50) {
+                    sidebarWidth = rect.right;
+                }
+            }
+            chatInput.style.setProperty('left', sidebarWidth + 'px', 'important');
+        }
+        
+        // Run on load and observe changes
+        alignChatInput();
+        setInterval(alignChatInput, 500);
+        window.addEventListener('resize', alignChatInput);
+    })();
+    </script>
+    """, unsafe_allow_html=True)
