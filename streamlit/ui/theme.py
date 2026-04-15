@@ -109,6 +109,10 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
         light_overrides = """
 <style>
 /* ── Light Mode Forçage de priorité maximale ─────────────────────────── */
+.stApp header[data-testid="stHeader"], .stApp .stAppHeader, .stApp header {
+  display: none !important;
+  visibility: hidden !important;
+}
 
 .stApp div[data-testid="stChatInput"] {
   background-color: transparent !important;
@@ -154,32 +158,11 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 
     # ── Partie commune (indépendante du thème) ───────────────────────────
     common = """
-/* ── HIDE HEADERS ────────────────────────────────────────── */
-.stApp header[data-testid="stHeader"], .stApp .stAppHeader, .stApp header {
+/* ── Hide the default Streamlit header ───────────────────── */
+header[data-testid="stHeader"] {
   display: none !important;
-  visibility: hidden !important;
 }
 
-/* ── TABS (fixed header) ─────────────────────────────────── */
-.stTabs {
-  position: fixed !important;
-  top: 0 !important;
-  right: 0 !important;
-  left: 19rem !important; /* adjust for default sidebar approx */
-  z-index: 998 !important;
-  background: var(--bg-dark) !important;
-  padding-top: 1rem !important;
-  padding-bottom: 0.5rem !important;
-  margin-top: 0 !important;
-}
-@media (max-width: 768px) {
-  .stTabs { left: 0 !important; padding: 1rem !important; }
-}
-/* Also force the main content area to properly support sticky */
-.stMainBlockContainer, section.main > div {
-  overflow: visible !important;
-  padding-top: 4.5rem !important; /* space for fixed tabs */
-}
 /* ── TABS (fixed at top) ────────────────────────────────── */
 .stTabs [data-baseweb="tab-list"] {
   background: var(--bg-dark) !important;
@@ -573,19 +556,18 @@ div[data-testid="stChatMessage"]:has(.msg-marker-user) * {
 
 /* Chat Input styling — match column context */
 div[data-testid="stChatInput"] {
-  position: fixed !important;
+  position: sticky !important;
   bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 9998 !important;
-  background: var(--bg-dark) !important;
-  padding: 0.8rem 15% !important;
-  border-top: 1px solid var(--border);
+  margin-top: auto !important; /* pushes it to the bottom if container is flex and empty */
+  z-index: 999 !important;
+  background: transparent !important;
+  padding: 0 0 1.5rem 0 !important;
+  border-top: none !important;
   margin: 0 !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 div[data-testid="stChatInput"] > div {
   background-color: var(--bg-card2) !important;
@@ -734,6 +716,34 @@ ul[data-baseweb="menu"] li:hover {
 .viz-stat:last-child { border-bottom: none; }
 .viz-stat-label { color: var(--text-muted); font-size: 0.88rem; }
 .viz-stat-value { font-weight: 700; font-size: 0.95rem; color: var(--accent); }
+
+/* ── FIXED CHAT INPUT AT BOTTOM ─────────────────────────── */
+div[data-testid="stBottom"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9998 !important;
+  background: var(--bg-dark) !important;
+  padding: 0.8rem 2rem !important;
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Also fix the stChatInput directly (fallback if stBottom doesn't exist) */
+div[data-testid="stChatInput"] {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9998 !important;
+  background: var(--bg-dark) !important;
+  padding: 0.8rem 15% !important;
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
 
 /* Ensure main content has enough bottom padding so nothing hides behind fixed input */
 .stApp .stMain .stMainBlockContainer {
