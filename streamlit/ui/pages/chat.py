@@ -76,18 +76,17 @@ def render(tab) -> None:
 </div>'''
                             st.markdown(source_block, unsafe_allow_html=True)
     
-        # Spacer pour éviter que le contenu soit caché par l'input fixé en bas
-        st.markdown("<div style='height: 100px;'></div>", unsafe_allow_html=True)
-
-        # ── Saisie utilisateur (placé au niveau du tab, hors colonnes) ────
+    
+        # ── Saisie utilisateur (en dehors de la colonne pour remplir le stBottom fixe) ──
         if prompt := st.chat_input("Posez votre question sur vos documents…"):
             st.session_state.messages.append({"role": "user", "content": prompt})
             
             # Ecrire le message de l'utilisateur
-            with messages_container:
-                with st.chat_message("user"):
-                    st.markdown("<span class='msg-marker-user'></span>", unsafe_allow_html=True)
-                    st.markdown(prompt)
+            with col_mid:
+                with messages_container:
+                    with st.chat_message("user"):
+                        st.markdown("<span class='msg-marker-user'></span>", unsafe_allow_html=True)
+                        st.markdown(prompt)
     
                 # ── Classification de l'intention ─────────────────────
                 with st.spinner("🧠 Analyse de la question…"):
@@ -125,8 +124,7 @@ def render(tab) -> None:
 </div>'''
                         st.markdown(source_block, unsafe_allow_html=True)
                     elif intent == INTENT_RAG and not ctx_text and index_ready():
-                        st.caption("ℹ️ Aucun document pertinent trouvé pour cette question.")
-    
+                            st.caption("ℹ️ Aucun document pertinent trouvé pour cette question.")
+        
             st.session_state.messages.append({"role": "assistant", "content": answer, "sources": sources if sources else None})
             st.rerun()  # Assure la mise à jour propre
-
