@@ -21,6 +21,7 @@ def render(tab) -> None:
         _, col_mid, _ = st.columns([1, 6, 1])
         
         with col_mid:
+            st.markdown("<div id='chat-col-marker'></div>", unsafe_allow_html=True)
             # ── Header Chat ──────────────────────────────────────────────────
             if not st.session_state.messages:
                 st.markdown("""
