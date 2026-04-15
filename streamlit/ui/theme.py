@@ -111,8 +111,8 @@ section[data-testid="stSidebar"] * { color: var(--text-main) !important; }
 /* ── Light Mode Forçage de priorité maximale ─────────────────────────── */
 
 .stApp div[data-testid="stChatInput"] {
-  background-color: #ffffff !important;
-  border-top: 1px solid #e5e5e5 !important;
+  background-color: transparent !important;
+  border-top: none !important;
 }
 .stApp div[data-testid="stChatInput"] > div,
 .stApp div[data-testid="stChatInput"] .stChatInputContainer {
@@ -571,39 +571,30 @@ div[data-testid="stChatMessage"]:has(.msg-marker-user) * {
   color: var(--text-main) !important; 
 }
 
-/* Chat Input styling — force fixed to bottom */
+/* Chat Input styling — match column context */
 div[data-testid="stChatInput"] {
   position: fixed !important;
   bottom: 0 !important;
-  left: 20rem !important; /* avoid sidebar */
+  left: 0 !important;
   right: 0 !important;
-  z-index: 999 !important;
+  z-index: 9998 !important;
   background: var(--bg-dark) !important;
-  padding: 0.75rem 2.5rem 1.2rem !important;
-  border-top: 1px solid var(--border) !important;
-  backdrop-filter: blur(16px) !important;
-  -webkit-backdrop-filter: blur(16px) !important;
+  padding: 0.8rem 15% !important;
+  border-top: 1px solid var(--border);
   margin: 0 !important;
-  max-width: calc(100% - 20rem) !important;
-  width: calc(100% - 20rem) !important;
+  width: 100% !important;
   box-sizing: border-box !important;
-}
-@media (max-width: 768px) {
-  div[data-testid="stChatInput"] { 
-    left: 0 !important; 
-    max-width: 100% !important; 
-    width: 100% !important; 
-    padding: 0.75rem 1rem 1rem !important;
-  }
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 div[data-testid="stChatInput"] > div {
   background-color: var(--bg-card2) !important;
   border-color: var(--border) !important;
   border-radius: 9999px !important;
-  box-shadow: none !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
   max-width: 100% !important;
   width: 100% !important;
-  margin: 0 auto !important;
+  margin: 0 !important;
 }
 div[data-testid="stChatInput"] * {
   color: var(--text-main) !important;
@@ -744,17 +735,9 @@ ul[data-baseweb="menu"] li:hover {
 .viz-stat-label { color: var(--text-muted); font-size: 0.88rem; }
 .viz-stat-value { font-weight: 700; font-size: 0.95rem; color: var(--accent); }
 
-/* ── FIXED CHAT INPUT AT BOTTOM ─────────────────────────── */
-div[data-testid="stBottom"] {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  z-index: 999 !important;
-  background: var(--bg-dark) !important;
-  padding: 0.5rem 1rem !important;
-  border-top: 1px solid var(--border);
-  backdrop-filter: blur(12px);
+/* Ensure main content has enough bottom padding so nothing hides behind fixed input */
+.stApp .stMain .stMainBlockContainer {
+  padding-bottom: 90px !important;
 }
 </style>
 """
